@@ -3,7 +3,7 @@
 > Teknofest Team ID: #494521
 > Application ID: #2017693
 
-## About the project
+## About the project / Proje Hakkında
 
 ### TR
 
