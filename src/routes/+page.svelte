@@ -1,9 +1,11 @@
-  <script>
-    export let data;
-  </script>
+<script>
+	export let data;
+	$: ({ countries } = data);
+</script>
 
-  <ul>
-    {#each data.countries as country}
-      <li>{country.name}</li>
-    {/each}
-  </ul>
+<h1>Welcome to Supabase!</h1>
+<ul>
+	{#each countries as country}
+		<li>{country.name}</li>
+	{/each}
+</ul>
