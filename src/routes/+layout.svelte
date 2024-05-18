@@ -1,9 +1,10 @@
 <script>
 	import { goto, invalidate } from '$app/navigation';
 	import { onMount } from 'svelte';
+	import NavigationBar from '$lib/navigationBar.svelte';
 
 	export let data;
-	$: ({ session, supabase } = data);
+	$: ({ session, supabase, user } = data);
 
 	onMount(() => {
 		const { data } = supabase.auth.onAuthStateChange((_, newSession) => {
@@ -25,4 +26,5 @@
 	});
 </script>
 
+<NavigationBar {user} {supabase} />
 <slot />

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { invalidate } from '$app/navigation';
 	import type { EventHandler } from 'svelte/elements';
+	import NavigationBar from '$lib/navigationBar.svelte';
 
 	import type { PageData } from './$types';
 

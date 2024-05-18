@@ -10,12 +10,7 @@
 	};
 </script>
 
-<header>
-	<nav>
-		<a href="/">Home</a>
-	</nav>
-	<button on:click={logout}>Logout</button>
-</header>
+<header></header>
 <main>
 	<slot />
 </main>
