@@ -18,6 +18,9 @@
 
 <nav class="navbar">
 	<div class="logo">Logo</div>
+	<!-- svelte-ignore a11y-click-events-have-key-events -->
+	<!-- svelte-ignore a11y-no-static-element-interactions -->
+	<!-- svelte-ignore a11y-missing-attribute -->
 	<a on:click={handleUserClick}>
 		<h3>{user?.email}</h3>
 	</a>
@@ -32,17 +35,10 @@
 		display: flex;
 		justify-content: space-between;
 		padding: 1em;
-		background-color: #d8bdff;
+		background-color: #000000;
 		color: white;
 	}
 	.logo {
 		font-size: 1.5em;
-	}
-	.user-icon {
-		cursor: pointer;
-	}
-	.icon {
-		height: 24px;
-		width: 24px;
 	}
 </style>
