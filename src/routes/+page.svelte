@@ -6,6 +6,6 @@
 <h1>Welcome to Supabase!</h1>
 <ul>
 	{#each countries as country}
-		<li>{country.name}</li>
+		<li>{country.id}</li>
 	{/each}
 </ul>

@@ -17,7 +17,7 @@
 </script>
 
 <nav class="navbar">
-	<div class="logo">Logo</div>
+	<div class="logo"><img src="/favicon.png" class="favicon" alt="logo" /></div>
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<!-- svelte-ignore a11y-missing-attribute -->
@@ -34,11 +34,15 @@
 	.navbar {
 		display: flex;
 		justify-content: space-between;
-		padding: 1em;
-		background-color: #000000;
+		background-color: #517908a9;
 		color: white;
+		border-radius: 10px;
 	}
 	.logo {
 		font-size: 1.5em;
+	}
+	.favicon {
+		width: 100px;
+		height: 100px;
 	}
 </style>

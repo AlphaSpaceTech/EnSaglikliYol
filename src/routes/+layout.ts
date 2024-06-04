@@ -2,9 +2,11 @@ import { createBrowserClient, createServerClient, isBrowser, parse } from '@supa
 
 import { PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL } from '$env/static/public';
 
+import { loadTranslations } from '$lib/translations';
+
 import type { LayoutLoad } from './$types';
 
-export const load: LayoutLoad = async ({ data, depends, fetch }) => {
+export const load: LayoutLoad = async ({ data, depends, fetch, url }) => {
 	/**
 	 * Declare a dependency so the layout can be invalidated, for example, on
 	 * session refresh.
@@ -46,6 +48,12 @@ export const load: LayoutLoad = async ({ data, depends, fetch }) => {
 	const {
 		data: { user }
 	} = await supabase.auth.getUser();
+
+	const { pathname } = url;
+
+	const initLocale = 'en'; // get from cookie, user session, ...
+
+	await loadTranslations(initLocale, pathname); // keep this just before the `return`
 
 	return { session, supabase, user };
 };
