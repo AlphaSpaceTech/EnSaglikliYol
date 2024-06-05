@@ -28,3 +28,9 @@ It is of critical importance for countries that are dependent on input. Our coun
 Investments aimed at increasing the share received will yield greater returns in terms of impact value.
 provides return. Those who want to receive health services with the interface we will develop
 A platform that provides guidance to patients who do not know our country has been developed.
+
+## Team Members / Takım Üyeleri
+
+> Dogu Cigsar - Lead Developer
+
+> Yusuf Durak - Team Leader
