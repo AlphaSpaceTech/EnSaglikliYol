@@ -3,6 +3,7 @@
 	import { onMount } from 'svelte';
 	import NavigationBar from '$lib/navigationBar.svelte';
 	import { loadTranslations } from '$lib/translations';
+	import { inject } from '@vercel/analytics';
 
 	export let data;
 	$: ({ session, supabase, user } = data);
