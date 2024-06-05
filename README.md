@@ -17,8 +17,6 @@ alacağı payın artmasına yönelik yatırımlar etki değeri açısından daha
 dönüş sağlamaktadır. Geliştireceğimiz ara yüz ile sağlık hizmeti almak isteyen ama
 ülkemizi tanımayan hastalara rehberlik yapan bir platform geliştirilmiş olmaktadır.
 
-### EN
-
 ## Team Members / Takım Üyeleri
 
 > Dogu Cigsar - Lead Developer
