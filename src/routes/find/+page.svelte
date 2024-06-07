@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	export let data;
-	$: ({ cities, cityId, provinces } = data);
+	$: ({ cities, cityId, provinces, hospitals } = data);
 	let selectedCity: String; // Variable to store the selected city
 	let cityOrder: number;
 	let province: any;
@@ -19,6 +19,7 @@
 		console.log('CityID:', cityId);
 		console.log('Cities:', cities);
 		console.log('Provinces:', provinces);
+		console.log('Hospitals:', hospitals);
 	});
 </script>
 
@@ -34,3 +35,11 @@
 		<p>{prov.name}</p>
 	{/each}
 {/if}
+
+{#if hospitals}
+	{#each hospitals as hospital}
+		<p>{hospital.name}</p>
+	{/each}
+{/if}
+
+
