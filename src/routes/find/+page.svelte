@@ -1,17 +1,20 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	export let data;
-	$: ({ cities, provinces, hospitals } = data);
+	$: ({ cities, provinces, hospitals, userID, reviews, supabase } = data);
 	let selectedCity: String; // Variable to store the selected city
 	let cityOrder: number;
 	let province: any;
-	let selectedProvince: String; // Variable to store the selected province
+	let selectedProvince: any; // Variable to store the selected province
 	let provinceOrder: number;
 	let hospital: any;
-	let selectedHospital: String; // Variable to store the selected hospital
+	let selectedHospital: any; // Variable to store the selected hospital
 	let hospitalOrder: number;
 	let hospitalCordsLatitude: any;
 	let hospitalCordsLongitude: any;
+	let review: any;
+	let reviewTitle: String;
+	let reviewComment: string;
 
 	// Function to handle city change
 	const changeCity = () => {
@@ -21,6 +24,7 @@
 		//Get all provinces that have the selected city and print province name
 		province = provinces.filter((province) => province.city_id === cityOrder);
 		console.log('Province:', province);
+		selectedProvince = null;
 	};
 	// Function to handle province change
 	const changeProvince = () => {
@@ -31,6 +35,7 @@
 		//Get all hospitals that have the selected province and print hospital name
 		hospital = hospitals.filter((hospital) => hospital.province_id === provinceOrder);
 		console.log('Hospital:', hospital);
+		selectedHospital = null;
 	};
 	const changeHospital = () => {
 		console.log('Selected hospital:', selectedHospital);
@@ -39,11 +44,32 @@
 		hospitalCordsLatitude = hospitals[hospitalOrder].latitude;
 		hospitalCordsLongitude = hospitals[hospitalOrder].longitude;
 		console.log('Hospital cords:', hospitalCordsLatitude, hospitalCordsLongitude);
+		//Get all review that have the selected hospital
+		review = reviews.filter((review) => review.hospital_id == hospitalOrder);
+		console.log(review);
 	};
+
+	async function sendReview() {
+		//TODO: Add points system
+		const { data, error } = await supabase
+			.from('user_reviews')
+			.insert([
+				{
+					title: reviewTitle,
+					data: reviewComment,
+					hospital_id: hospitalOrder,
+					user_id: userID.user?.id
+				}
+			])
+			.select();
+	}
+
 	onMount(() => {
 		console.log('Cities:', cities);
 		console.log('Provinces:', provinces);
 		console.log('Hospitals:', hospitals);
+		console.log(userID);
+		console.log(reviews);
 	});
 </script>
 
@@ -90,6 +116,17 @@
 			scrolling="no"
 			marginheight="0"
 			marginwidth="0"
+			title="google-map-view"
+			loading="lazy"
 			src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q={hospitalCordsLatitude},%20{hospitalCordsLongitude}&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
 		></iframe>
-	</div>{/if}
+	</div>
+	{#each review as revi}
+		<h2>{revi.title}</h2>
+		<h4>From: {revi.user_id}</h4>
+		<p>{revi.data}</p>
+	{/each}
+	<input bind:value={reviewTitle} />
+	<input bind:value={reviewComment} />
+	<button on:click={sendReview}>Send Revies</button>
+{/if}
