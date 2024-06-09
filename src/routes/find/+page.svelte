@@ -72,6 +72,9 @@
 	function sendToBooking() {
 		goto('/book/' + hospitalOrder);
 	}
+	function sendToHospital() {
+		goto('/hospital/' + hospitalOrder);
+	}
 
 	onMount(() => {
 		if (userID.user?.aud == null) {
@@ -139,7 +142,8 @@
 		<p>{revi.data}</p>
 	{/each}
 	<button on:click={sendToBooking}>Book an appointment with this hospital</button>
+	<button on:click={sendToHospital}>More details about this hospital</button>
 	<input bind:value={reviewTitle} />
 	<input bind:value={reviewComment} />
-	<button on:click={sendReview}>Send Revies</button>
+	<button on:click={sendReview}>Send Review</button>
 {/if}
