@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
+	import { goto, invalidateAll } from '$app/navigation';
 	export let user: { email?: string };
 	export let supabase: any; // Export supabase prop
 
@@ -18,11 +18,13 @@
 		if (error) {
 			console.error(error);
 		}
+		invalidateAll();
 	};
 </script>
 
 <nav class="navbar">
 	<div class="logo"><img src="/favicon.png" class="favicon" alt="logo" /></div>
+	<a href="find">Find</a>
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<!-- svelte-ignore a11y-missing-attribute -->

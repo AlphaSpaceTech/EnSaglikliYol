@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
 	export let data;
 	$: ({ cities, provinces, hospitals, userID, reviews, supabase } = data);
 	let selectedCity: String; // Variable to store the selected city
@@ -51,20 +52,31 @@
 
 	async function sendReview() {
 		//TODO: Add points system
-		const { data, error } = await supabase
-			.from('user_reviews')
-			.insert([
-				{
-					title: reviewTitle,
-					data: reviewComment,
-					hospital_id: hospitalOrder,
-					user_id: userID.user?.id
-				}
-			])
-			.select();
+		if (reviewTitle !== undefined && reviewComment !== undefined) {
+			const { data, error } = await supabase
+				.from('user_reviews')
+				.insert([
+					{
+						title: reviewTitle,
+						data: reviewComment,
+						hospital_id: hospitalOrder,
+						user_id: userID.user?.id
+					}
+				])
+				.select();
+		} else {
+			console.log('Null data');
+		}
+	}
+
+	function sendToBooking() {
+		goto('/book/' + hospitalOrder);
 	}
 
 	onMount(() => {
+		if (userID.user?.aud == null) {
+			goto('/auth');
+		}
 		console.log('Cities:', cities);
 		console.log('Provinces:', provinces);
 		console.log('Hospitals:', hospitals);
@@ -126,6 +138,7 @@
 		<h4>From: {revi.user_id}</h4>
 		<p>{revi.data}</p>
 	{/each}
+	<button on:click={sendToBooking}>Book an appointment with this hospital</button>
 	<input bind:value={reviewTitle} />
 	<input bind:value={reviewComment} />
 	<button on:click={sendReview}>Send Revies</button>
