@@ -4,6 +4,7 @@
 	import NavigationBar from '$lib/navigationBar.svelte';
 	import { loadTranslations } from '$lib/translations';
 	import { inject } from '@vercel/analytics';
+	import { dev } from '$app/environment';
 
 	export let data;
 	$: ({ session, supabase, user } = data);
@@ -24,6 +25,7 @@
 
 		return () => data.subscription.unsubscribe();
 	});
+	inject({ mode: dev ? 'development' : 'production' });
 </script>
 
 <NavigationBar {user} {supabase} />
