@@ -1,5 +1,9 @@
 <form method="POST" action="?/login">
 	<label>
+		Name Surname
+		<input name="name" type="name" />
+	</label>
+	<label>
 		Email
 		<input name="email" type="email" />
 	</label>
@@ -7,6 +11,5 @@
 		Password
 		<input name="password" type="password" />
 	</label>
-	<button>Login</button>
-	<button><a href="/auth/signup">Sign Up</a></button>
+	<button formaction="?/signup">Sign up</button>
 </form>
