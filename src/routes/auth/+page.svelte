@@ -1,12 +1,66 @@
-<form method="POST" action="?/login">
-	<label>
+<form method="POST" action="?/login" class="container">
+	<label class="dropdowns">
 		Email
 		<input name="email" type="email" />
 	</label>
-	<label>
+	<label class="dropdowns">
 		Password
 		<input name="password" type="password" />
 	</label>
-	<button>Login</button>
-	<button><a href="/auth/signup">Sign Up</a></button>
+	<div class="bottomButtons">
+		<button>Login</button>
+		<button formaction="?/signup">Sign Up</button>
+	</div>
 </form>
+
+<style>
+	.container {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		padding: 1em;
+		background-color: #f9f9f9;
+		border-radius: 5px;
+		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+		width: 100%;
+		max-width: 600px;
+		margin: auto;
+		margin-top: 10em;
+	}
+
+	.dropdowns {
+		width: 100%;
+		padding: 1em;
+		font-size: 16px;
+		border-radius: 4px;
+		background-color: #f9f9f9;
+		box-sizing: border-box;
+	}
+
+	.bottomButtons {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	button {
+		flex-grow: 1;
+		margin: 0.5em;
+		padding: 0.5em 1em;
+		border: none;
+		border-radius: 4px;
+		background-color: #007bff;
+		color: white;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
+		text-decoration: none;
+	}
+
+	button:hover {
+		background-color: #0056b3;
+	}
+
+	a {
+		color: white;
+		text-decoration: none;
+	}
+</style>

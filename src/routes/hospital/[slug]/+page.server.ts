@@ -6,11 +6,13 @@ export const load: PageServerLoad = async ({ locals: { supabase } }) => {
 	const { data: hospitals } = await supabase.from('hospitals').select('*');
 	const { data: reviews } = await supabase.from('user_reviews').select('*');
 	const { data: attractions } = await supabase.from('attractions').select('*').limit(5);
+	const { data: userID } = await supabase.auth.getUser();
 
 	return {
 		cities: cities ?? [],
 		provinces: provinces ?? [],
 		hospitals: hospitals ?? [],
+		userID: userID ?? [],
 		reviews: reviews ?? [],
 		attractions: attractions ?? []
 	};
