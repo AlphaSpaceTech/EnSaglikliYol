@@ -68,6 +68,7 @@
 					}
 				])
 				.select();
+			choiceStatus = 'Review sent, please refresh the page to see your review';
 		} else {
 			console.log('Null data');
 		}
