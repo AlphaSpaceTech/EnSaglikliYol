@@ -19,6 +19,7 @@
 	let review: any;
 	let reviewTitle: String;
 	let reviewComment: string;
+	let thisPage: any;
 
 	function sendToBooking() {
 		goto('/book/' + hospitalID);
@@ -37,12 +38,14 @@
 					}
 				])
 				.select();
+			goto('/').then(() => goto(thisPage));
 		} else {
 			console.log('Null data');
 		}
 	}
 
 	onMount(() => {
+		thisPage = window.location.pathname;
 		console.log(attractions);
 		hospitalName = hospitals[Number(hospitalID) - 1].name;
 		hospitalCityText = cities[hospitals[Number(hospitalID) - 1].city_id - 1].name;
