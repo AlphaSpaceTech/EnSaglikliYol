@@ -16,6 +16,7 @@
 	let review: any;
 	let reviewTitle: String;
 	let reviewComment: string;
+	let choiceStatus: string = 'Please select a city';
 
 	// Function to handle city change
 	const changeCity = () => {
@@ -26,6 +27,7 @@
 		province = provinces.filter((province) => province.city_id === cityOrder);
 		console.log('Province:', province);
 		selectedProvince = null;
+		choiceStatus = 'Please select a province';
 	};
 	// Function to handle province change
 	const changeProvince = () => {
@@ -37,6 +39,7 @@
 		hospital = hospitals.filter((hospital) => hospital.province_id === provinceOrder);
 		console.log('Hospital:', hospital);
 		selectedHospital = null;
+		choiceStatus = 'Please select a hospital';
 	};
 	const changeHospital = () => {
 		console.log('Selected hospital:', selectedHospital);
@@ -48,6 +51,7 @@
 		//Get all review that have the selected hospital
 		review = reviews.filter((review) => review.hospital_id == hospitalOrder);
 		console.log(review);
+		choiceStatus = '';
 	};
 
 	async function sendReview() {
@@ -112,6 +116,7 @@
 				{/each}
 			</select>
 		{/if}
+		<h1>{choiceStatus}</h1>
 		{#if hospitalCordsLatitude && hospitalCordsLongitude}
 			<div style="width: 100%;height: 80%; margins: 10px;">
 				<iframe
@@ -123,6 +128,7 @@
 					marginwidth="0"
 					title="google-map-view"
 					loading="lazy"
+					class="map"
 					src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q={hospitalCordsLatitude},%20{hospitalCordsLongitude}&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
 				></iframe>
 			</div>
@@ -140,52 +146,159 @@
 	> with cords-->
 
 	{#if hospitalCordsLatitude && hospitalCordsLongitude}
-		<div class="reviews">
-			{#each review as revi}
-				<h2>{revi.title}</h2>
-				<h4>From: {revi.user_id}</h4>
-				<p>{revi.data}</p>
-			{/each}
-			<div class="reviewInput">
-				<input bind:value={reviewTitle} />
-				<input bind:value={reviewComment} />
-				<button on:click={sendReview}>Send Review</button>
-			</div>
-			<div class="bottomButtons">
-				<button on:click={sendToHospital}>More details about this hospital</button>
-				<button on:click={sendToBooking}>Book an appointment with this hospital</button>
+		<div class="container">
+			<div class="reviews">
+				{#each review as revi}
+					<h2>{revi.title}</h2>
+					<h4>From: {revi.user_id}</h4>
+					<p>{revi.data}</p>
+				{/each}
+				<div class="reviewInput">
+					<input bind:value={reviewTitle} placeholder="Review Title" />
+					<input bind:value={reviewComment} placeholder="Review" />
+				</div>
+				<div class="bottomButtons">
+					<button on:click={sendReview}>Send Review</button>
+					<button on:click={sendToHospital}>More details about this hospital</button>
+					<button on:click={sendToBooking}>Book an appointment with this hospital</button>
+				</div>
 			</div>
 		</div>
 	{/if}
 </div>
 
 <style>
-	.all {
-		display: flex;
-		flex-direction: row;
+	.map {
+		width: 100%;
+		height: 400px;
+		object-fit: cover;
 	}
+
 	.dropdowns {
-		align-items: start;
+		width: 100%;
+		padding: 1em;
+		font-size: 16px;
+		border-radius: 4px;
+		background-color: #f9f9f9;
+		box-sizing: border-box;
+	}
+	@media (max-width: 600px) {
+		.dropdowns {
+			width: 90%;
+		}
+	}
+
+	.container {
+		display: flex;
 		flex-direction: column;
-		align-items: center;
-		width: 50%;
-		height: 80vh;
-		margin: 10px;
+		justify-content: space-between;
+		padding: 1em;
+		background-color: #f9f9f9;
+		border-radius: 5px;
+		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 	}
 	select {
-		height: 4em;
 		width: 100%;
-		display: block;
-		margin-bottom: 5px;
+		padding: 0.5em;
+		margin-bottom: 10px;
+		font-size: 1em;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		background-color: #f9f9f9;
+		box-sizing: border-box;
+		transition: all 0.3s ease;
+	}
+
+	select:hover {
+		border-color: #888;
+	}
+
+	select:focus {
+		outline: none;
+		border-color: #007bff;
+	}
+
+	@media (max-width: 600px) {
+		select {
+			width: 90%;
+		}
+	}
+	select {
+		width: 100%;
+		padding: 0.5em;
+		font-size: 1em;
+		border-radius: 4px;
+		background-color: #f9f9f9;
+		box-sizing: border-box;
+		transition: all 0.3s ease;
+	}
+
+	select:hover {
+		border-color: #888;
+	}
+
+	select:focus {
+		outline: none;
+		border-color: #007bff;
+	}
+
+	@media (max-width: 600px) {
+		select {
+			width: 90%;
+		}
 	}
 	.reviews {
-		display: flex;
-		align-items: flex-end;
+		margin-bottom: 1em;
 	}
+
+	.reviews h2,
+	.reviews h4 {
+		margin: 0.5em 0;
+	}
+
+	.reviews p {
+		margin-bottom: 1em;
+		color: #666;
+	}
+
 	.reviewInput {
-		align-items: center;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5em;
 	}
+
+	.reviewInput input {
+		padding: 0.5em;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+	}
+
 	.bottomButtons {
-		align-items: end;
+		display: flex;
+		justify-content: space-between; /* This will spread out the buttons */
+	}
+
+	.bottomButtons button {
+		flex-grow: 1; /* This will make the buttons grow to fill the container */
+		margin: 0.5em; /* This will create some space between the buttons */
+		padding: 0.5em 1em;
+		border: none;
+		border-radius: 4px;
+		background-color: #007bff;
+		color: white;
+		cursor: pointer;
+		text-align: center; /* This will center the text inside the buttons */
+		transition: background-color 0.3s ease;
+	}
+	.bottomButtons button:hover {
+		background-color: #0056b3;
+	}
+	button {
+		padding: 0.5em 1em;
+		border: none;
+		border-radius: 4px;
+		background-color: #007bff;
+		color: white;
+		cursor: pointer;
 	}
 </style>

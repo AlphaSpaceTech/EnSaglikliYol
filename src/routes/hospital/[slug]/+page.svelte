@@ -3,7 +3,7 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	export let data;
-	$: ({ cities, provinces, hospitals, reviews, attractions } = data);
+	$: ({ cities, provinces, hospitals, reviews, attractions, supabase, userID } = data);
 
 	const hospitalID = $page.params.slug;
 
@@ -16,9 +16,30 @@
 	let relatedAttractionsCity: any;
 	let relatedAttractionsProvince: any;
 	let load: boolean = false;
+	let review: any;
+	let reviewTitle: String;
+	let reviewComment: string;
 
 	function sendToBooking() {
 		goto('/book/' + hospitalID);
+	}
+	async function sendReview() {
+		//TODO: Add points system
+		if (reviewTitle !== undefined && reviewComment !== undefined) {
+			const { data, error } = await supabase
+				.from('user_reviews')
+				.insert([
+					{
+						title: reviewTitle,
+						data: reviewComment,
+						hospital_id: hospitalID,
+						user_id: userID.user?.id
+					}
+				])
+				.select();
+		} else {
+			console.log('Null data');
+		}
 	}
 
 	onMount(() => {
@@ -41,27 +62,204 @@
 		console.log(relatedAttractionsCity);
 		console.log(relatedAttractionsProvince);
 		console.log(provinces[hospitals[Number(hospitalID) - 1].province_id - 1]);
+		review = reviews.filter((review) => review.hospital_id == hospitalID);
 		load = true;
 	});
 </script>
 
-<h1>{hospitalName}</h1>
-<h2>At {hospitalProvinceText}/{hospitalCityText}</h2>
-<h2>Cords: {hospitalCordsLatitude} - {hospitalCordsLongitude}</h2>
-<h2>Contact number: {hospitalContactNumber}</h2>
-<button on:click={sendToBooking}>Book an appointment</button>
-
-<div>
-	{#if load}
-		<h4>Places you can visit in {hospitalProvinceText}/{hospitalCityText}</h4>
-		{#each relatedAttractionsProvince as attractProv}
-			{attractProv.name}
-			<img src={attractProv.image} alt={attractProv.name} />
-		{/each}
-		<h4>Places you can visit in {hospitalCityText}</h4>
-		{#each relatedAttractionsCity as attractCity}
-			{attractCity.name}
-			<img src={attractCity.image} alt={attractCity.name} />
-		{/each}
+<div class="topPart">
+	<div class="details">
+		<h1>{hospitalName}</h1>
+		<h2>At {hospitalProvinceText}/{hospitalCityText}</h2>
+		<h2>Cords: {hospitalCordsLatitude} - {hospitalCordsLongitude}</h2>
+		<h2>Contact number: {hospitalContactNumber}</h2>
+	</div>
+	{#if hospitalCordsLatitude && hospitalCordsLongitude}
+		<div class="mapContainer">
+			<iframe
+				frameborder="0"
+				scrolling="no"
+				marginheight="0"
+				marginwidth="0"
+				title="google-map-view"
+				loading="lazy"
+				class="map"
+				src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q={hospitalCordsLatitude},%20{hospitalCordsLongitude}&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+			></iframe>
+		</div>
 	{/if}
 </div>
+<div class="reviews">
+	<div class="review">
+		{#if review == undefined}
+			<h3>No reviews yet</h3>
+		{:else}
+			<div class="aReview">
+				{#each review as revi}
+					<h2>{revi.title}</h2>
+					<h4>From: {revi.user_id}</h4>
+					<p>{revi.data}</p>
+				{/each}
+			</div>
+		{/if}
+	</div>
+	<div class="reviewInput">
+		<input bind:value={reviewTitle} placeholder="Review Title" />
+		<input bind:value={reviewComment} placeholder="Review" />
+		<div class="bottomButtons">
+			<button on:click={sendReview}>Send Review</button>
+			<button on:click={sendToBooking}>Book an appointment with this hospital</button>
+		</div>
+	</div>
+</div>
+
+<div class="placesContainer">
+	{#if load}
+		<div class="containerProvinces">
+			<h4>Places you can visit in {hospitalProvinceText}/{hospitalCityText}</h4>
+			<div class="provincePlaces">
+				{#each relatedAttractionsProvince as attractProv}
+					{attractProv.name}
+					<img src={attractProv.image} alt={attractProv.name} />
+				{/each}
+			</div>
+		</div>
+		<div class="containerCities">
+			<h4>Places you can visit in {hospitalCityText}</h4>
+			<div class="cityPlaces">
+				{#each relatedAttractionsCity as attractCity}
+					{attractCity.name}
+					<img src={attractCity.image} alt={attractCity.name} />
+				{/each}
+			</div>
+		</div>
+	{/if}
+</div>
+
+<style>
+	.topPart {
+		display: flex;
+		align-items: stretch;
+		padding: 1em;
+		background-color: #f5f5f5;
+		border-radius: 4px;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	}
+	.topPart .details {
+		flex: 1 0 60%; /* Adjust this to change the width of the details section */
+	}
+
+	.topPart .mapContainer {
+		flex: 1 0 35%; /* Adjust this to change the width of the map section */
+		margin-left: 10px;
+	}
+
+	.topPart .map {
+		height: 100%;
+		width: 100%;
+	}
+
+	.topPart h1 {
+		color: #333;
+		font-size: 2em;
+		margin-bottom: 0.5em;
+	}
+
+	.topPart h2 {
+		color: #666;
+		margin-bottom: 0.5em;
+	}
+	.reviewInput {
+		display: flex;
+		flex-direction: column;
+		padding: 0 0.5em;
+		gap: 0.5em;
+	}
+
+	.reviewInput input {
+		padding: 0.5em;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+	}
+
+	.bottomButtons {
+		display: flex;
+		justify-content: space-between; /* This will spread out the buttons */
+	}
+
+	.bottomButtons button {
+		flex-grow: 1; /* This will make the buttons grow to fill the container */
+		margin: 0.5em; /* This will create some space between the buttons */
+		padding: 0.5em 1em;
+		border: none;
+		border-radius: 4px;
+		background-color: #007bff;
+		color: white;
+		cursor: pointer;
+		text-align: center; /* This will center the text inside the buttons */
+		transition: background-color 0.3s ease;
+	}
+	.bottomButtons button:hover {
+		background-color: #0056b3;
+	}
+	button {
+		padding: 0.5em 1em;
+		border: none;
+		border-radius: 4px;
+		background-color: #007bff;
+		color: white;
+		cursor: pointer;
+	}
+	.placesContainer {
+		display: flex;
+		justify-content: space-between;
+		gap: 1em; /* Adjust this value to increase or decrease the gap */
+	}
+	.placesContainer h4 {
+		/* make it like a title */
+		margin: 0;
+		padding: 0;
+		color: #333;
+	}
+
+	.provincePlaces,
+	.cityPlaces {
+		display: grid;
+		grid-template-columns: repeat(
+			auto-fill,
+			minmax(200px, 1fr)
+		); /* Adjust the 200px to change the minimum width of the elements */
+		gap: 0.5em;
+		padding: 0.5em;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		width: 45%;
+	}
+	.provincePlaces img,
+	.cityPlaces img {
+		width: 100%;
+		height: auto;
+		object-fit: cover;
+	}
+
+	@media (max-width: 600px) {
+		.provincePlaces,
+		.cityPlaces {
+			width: 90%;
+		}
+	}
+
+	@media (min-width: 601px) {
+		.placesContainer {
+			display: flex;
+			justify-content: space-between;
+		}
+	}
+	.reviews {
+		display: grid;
+		gap: 1em;
+		padding: 1em;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+	}
+</style>

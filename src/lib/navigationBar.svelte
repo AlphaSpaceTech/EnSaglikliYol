@@ -19,6 +19,8 @@
 			console.error(error);
 		}
 		invalidateAll();
+		isMenuOpen = false;
+		goto('/');
 	};
 </script>
 
@@ -164,9 +166,6 @@
 	.logo {
 		width: 100px;
 		height: 100px;
-		position: relative;
-		overflow: hidden;
-		border-radius: 50%;
 	}
 	.user-menu {
 		background-color: rgba(78, 194, 194, 0.589);
