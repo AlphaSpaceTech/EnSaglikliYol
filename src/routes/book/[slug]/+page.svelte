@@ -38,7 +38,11 @@
 		</section>
 		<div class="dateInput">
 			<label for="date">Select a date for your appointment</label>
-			<DateInput bind:value={date} />
+			<DateInput
+				bind:value={date}
+				min={new Date()}
+				max={new Date(new Date().setFullYear(new Date().getFullYear() + 2))}
+			/>
 		</div>
 		<button on:click={bookAppointment}>Book Appointment</button>
 	</section>
