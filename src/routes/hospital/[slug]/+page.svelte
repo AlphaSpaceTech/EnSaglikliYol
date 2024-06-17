@@ -112,7 +112,7 @@
 </div>
 <div class="reviews">
 	<div class="review">
-		{#if review == undefined}
+		{#if review === undefined}
 			<h3>No reviews yet</h3>
 		{:else}
 			<div class="aReview">
