@@ -3,7 +3,7 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	export let data;
-	$: ({ cities, provinces, hospitals, reviews, attractions, supabase, userID } = data);
+	$: ({ cities, provinces, hospitals, reviews, attractions, supabase, userID, doctors } = data);
 
 	const hospitalID = $page.params.slug;
 
@@ -20,6 +20,7 @@
 	let reviewTitle: String;
 	let reviewComment: string;
 	let thisPage: any;
+	let hospitalDoctors: any;
 
 	function sendToBooking() {
 		goto('/book/' + hospitalID);
@@ -38,15 +39,18 @@
 					}
 				])
 				.select();
-			goto('/').then(() => goto(thisPage));
+			goto('/refresh').then(() => goto(thisPage));
 		} else {
 			console.log('Null data');
 		}
 	}
 
 	onMount(() => {
+		hospitalDoctors = doctors.filter((doc) => doc.hospital_id == hospitalID);
 		thisPage = window.location.pathname;
 		console.log(attractions);
+		console.log(doctors);
+		console.log(hospitalID);
 		hospitalName = hospitals[Number(hospitalID) - 1].name;
 		hospitalCityText = cities[hospitals[Number(hospitalID) - 1].city_id - 1].name;
 		hospitalProvinceText = provinces[hospitals[Number(hospitalID) - 1].province_id - 1].name;
@@ -59,6 +63,7 @@
 		relatedAttractionsProvince = attractions.filter(
 			(att2) => att2.province_id === provinces[hospitals[Number(hospitalID) - 1].province_id - 1].id
 		);
+		console.log(hospitalDoctors);
 		console.log(hospitalName);
 		console.log(hospitalCityText);
 		console.log(hospitalProvinceText);
@@ -90,6 +95,19 @@
 				src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q={hospitalCordsLatitude},%20{hospitalCordsLongitude}&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
 			></iframe>
 		</div>
+	{/if}
+</div>
+<div class="doctors">
+	{#if hospitalDoctors == undefined}
+		<h3>No doctors available</h3>
+	{:else}
+		<h3>Doctors available at {hospitalName}</h3>
+		{#each hospitalDoctors as doc}
+			<div class="doctor">
+				<h2>{doc.name}</h2>
+				<h4>{doc.branch}</h4>
+			</div>
+		{/each}
 	{/if}
 </div>
 <div class="reviews">
@@ -171,6 +189,14 @@
 	.topPart h2 {
 		color: #666;
 		margin-bottom: 0.5em;
+	}
+
+	.doctors {
+		display: grid;
+		gap: 1em;
+		padding: 1em;
+		border: 1px solid #ccc;
+		border-radius: 4px;
 	}
 	.reviewInput {
 		display: flex;

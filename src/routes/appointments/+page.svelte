@@ -11,7 +11,7 @@
 
 	async function deleteAppointment(id: any) {
 		const { error } = await supabase.from('appointments').delete().eq('id', id);
-		goto('/').then(() => goto(thisPage));
+		goto('/refresh').then(() => goto(thisPage));
 	}
 
 	function gotoHospital(hospital_id: any) {

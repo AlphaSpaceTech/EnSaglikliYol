@@ -21,10 +21,10 @@
 	// Function to handle city change
 	const changeCity = () => {
 		console.log('Selected city:', selectedCity);
-		cityOrder = cities.findIndex((city) => city.name === selectedCity) + 1;
+		cityOrder = cities.findIndex((city: any) => city.name === selectedCity) + 1;
 		console.log('City order:', cityOrder);
 		//Get all provinces that have the selected city and print province name
-		province = provinces.filter((province) => province.city_id === cityOrder);
+		province = provinces.filter((province: any) => province.city_id === cityOrder);
 		console.log('Province:', province);
 		selectedProvince = null;
 		choiceStatus = 'Please select a province';
@@ -33,23 +33,23 @@
 	const changeProvince = () => {
 		console.log('Selected province:', selectedProvince);
 		//Province order in all provinces
-		provinceOrder = provinces.findIndex((prov) => prov.name === selectedProvince) + 1;
+		provinceOrder = provinces.findIndex((prov: any) => prov.name === selectedProvince) + 1;
 		console.log('Province order:', provinceOrder);
 		//Get all hospitals that have the selected province and print hospital name
-		hospital = hospitals.filter((hospital) => hospital.province_id === provinceOrder);
+		hospital = hospitals.filter((hospital: any) => hospital.province_id === provinceOrder);
 		console.log('Hospital:', hospital);
 		selectedHospital = null;
 		choiceStatus = 'Please select a hospital';
 	};
 	const changeHospital = () => {
 		console.log('Selected hospital:', selectedHospital);
-		hospitalOrder = hospitals.findIndex((hosp) => hosp.name === selectedHospital) + 1;
+		hospitalOrder = hospitals.findIndex((hosp: any) => hosp.name === selectedHospital) + 1;
 		console.log('Hospital order:', hospitalOrder);
 		hospitalCordsLatitude = hospitals[hospitalOrder].latitude;
 		hospitalCordsLongitude = hospitals[hospitalOrder].longitude;
 		console.log('Hospital cords:', hospitalCordsLatitude, hospitalCordsLongitude);
 		//Get all review that have the selected hospital
-		review = reviews.filter((review) => review.hospital_id == hospitalOrder);
+		review = reviews.filter((review: any) => review.hospital_id == hospitalOrder);
 		console.log(review);
 		choiceStatus = '';
 	};
@@ -149,11 +149,13 @@
 	{#if hospitalCordsLatitude && hospitalCordsLongitude}
 		<div class="container">
 			<div class="reviews">
-				{#each review as revi}
-					<h2>{revi.title}</h2>
-					<h4>From: {revi.user_id}</h4>
-					<p>{revi.data}</p>
-				{/each}
+				{#if review.length !== 0}
+					{#each review as revi}
+						<h2>{revi.title}</h2>
+						<h4>From: {revi.user_id}</h4>
+						<p>{revi.data}</p>
+					{/each}
+				{/if}
 				<div class="reviewInput">
 					<input bind:value={reviewTitle} placeholder="Review Title" />
 					<input bind:value={reviewComment} placeholder="Review" />
