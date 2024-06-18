@@ -1,13 +1,15 @@
-<script>
+<script lang="ts">
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { DateInput } from 'date-picker-svelte';
 	export let data;
-	$: ({ hospitals, userID, supabase, appointments } = data);
+	$: ({ hospitals, userID, supabase, doctors } = data);
 
 	const hospitalID = $page.params.slug;
 	let date = new Date();
+	let hospitalDoctors: any;
+	let doctorID: any;
 
 	async function bookAppointment() {
 		const { data, error } = await supabase
@@ -16,18 +18,21 @@
 				{
 					hospital_id: hospitalID,
 					uid: userID.user?.id,
-					booked_for: date
+					booked_for: date,
+					doctor_id: doctorID
 				}
 			])
 			.select();
 		goto('/appointments');
 		console.log(hospitalID);
 		console.log(userID.user?.id);
+		console.log(doctorID);
 	}
 	onMount(() => {
 		if (userID.user?.aud == null) {
 			goto('/auth');
 		}
+		hospitalDoctors = doctors.filter((doc) => doc.hospital_id == hospitalID);
 	});
 </script>
 
@@ -36,13 +41,27 @@
 		<section class="hero">
 			<h1>Booking an appointment with {hospitals[Number(hospitalID) - 1].name}</h1>
 		</section>
-		<div class="dateInput">
-			<label for="date">Select a date for your appointment</label>
-			<DateInput
-				bind:value={date}
-				min={new Date()}
-				max={new Date(new Date().setFullYear(new Date().getFullYear() + 2))}
-			/>
+		<div class="inputs">
+			<div class="dateInput">
+				<label for="date">Select a date for your appointment</label>
+				<DateInput
+					bind:value={date}
+					min={new Date()}
+					max={new Date(new Date().setFullYear(new Date().getFullYear() + 2))}
+				/>
+				<div class="doctorInput">
+					<label for="doctor">Select a doctor for your appointment</label>
+					<select name="doctor" id="doctor" bind:value={doctorID}>
+						{#if hospitalDoctors !== undefined}
+							{#each hospitalDoctors as doctor}
+								<option value={doctor.id}>{doctor.name}</option>
+							{/each}
+						{:else}
+							<option value="0">No doctors available</option>
+						{/if}
+					</select>
+				</div>
+			</div>
 		</div>
 		<button on:click={bookAppointment}>Book Appointment</button>
 	</section>
@@ -92,5 +111,15 @@
 
 	.appointmentContainer button:hover {
 		background-color: #0056b3;
+	}
+	.inputs {
+		display: flex;
+		flex-direction: column;
+		gap: 1em;
+		padding: 1em;
+	}
+
+	.doctorInput {
+		padding-top: 1em;
 	}
 </style>
