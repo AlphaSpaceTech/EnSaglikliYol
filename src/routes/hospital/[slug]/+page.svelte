@@ -47,6 +47,10 @@
 
 	onMount(() => {
 		hospitalDoctors = doctors.filter((doc) => doc.hospital_id == hospitalID);
+		//if hospital doctors are =  [] then hospitaldoctors = undefined
+		if (hospitalDoctors.length == 0) {
+			hospitalDoctors = undefined;
+		}
 		thisPage = window.location.pathname;
 		console.log(attractions);
 		console.log(doctors);
@@ -63,6 +67,12 @@
 		relatedAttractionsProvince = attractions.filter(
 			(att2) => att2.province_id === provinces[hospitals[Number(hospitalID) - 1].province_id - 1].id
 		);
+		if (relatedAttractionsCity.length == 0) {
+			relatedAttractionsCity = undefined;
+		}
+		if (relatedAttractionsProvince.length == 0) {
+			relatedAttractionsProvince = undefined;
+		}
 		console.log(hospitalDoctors);
 		console.log(hospitalName);
 		console.log(hospitalCityText);
@@ -97,10 +107,9 @@
 		</div>
 	{/if}
 </div>
-<div class="doctors">
-	{#if hospitalDoctors == undefined}
-		<h3>No doctors available</h3>
-	{:else}
+<!-- svelte-ignore empty-block -->
+{#if hospitalDoctors == undefined}{:else}
+	<div class="doctors">
 		<h3>Doctors available at {hospitalName}</h3>
 		{#each hospitalDoctors as doc}
 			<div class="doctor">
@@ -108,8 +117,8 @@
 				<h4>{doc.branch}</h4>
 			</div>
 		{/each}
-	{/if}
-</div>
+	</div>
+{/if}
 <div class="reviews">
 	<div class="review">
 		{#if review === undefined}
@@ -136,15 +145,19 @@
 
 <div class="placesContainer">
 	{#if load}
-		<div class="containerProvinces">
-			<h4>Places you can visit in {hospitalProvinceText}/{hospitalCityText}</h4>
-			<div class="provincePlaces">
-				{#each relatedAttractionsProvince as attractProv}
-					{attractProv.name}
-					<img src={attractProv.image} alt={attractProv.name} />
-				{/each}
+		{#if relatedAttractionsProvince == undefined}
+			<h4>No attractions in {hospitalProvinceText}</h4>
+		{:else}
+			<div class="containerProvinces">
+				<h4>Places you can visit in {hospitalProvinceText}/{hospitalCityText}</h4>
+				<div class="provincePlaces">
+					{#each relatedAttractionsProvince as attractProv}
+						{attractProv.name}
+						<img src={attractProv.image} alt={attractProv.name} />
+					{/each}
+				</div>
 			</div>
-		</div>
+		{/if}
 		<div class="containerCities">
 			<h4>Places you can visit in {hospitalCityText}</h4>
 			<div class="cityPlaces">

@@ -4,7 +4,7 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	export let data;
-	$: ({ hospitals, userID, supabase, appointments } = data);
+	$: ({ hospitals, userID, supabase, appointments, doctors } = data);
 
 	let deleteSelected: any;
 	let thisPage: any;
@@ -24,6 +24,7 @@
 		thisPage = window.location.pathname;
 		console.log(appointments);
 		console.log(hospitals);
+		console.log(doctors);
 	});
 </script>
 
@@ -37,6 +38,10 @@
 		<div class="appointmentCard">
 			<h2>{hospitals[appointment.hospital_id - 1].name}</h2>
 			<h3>Booked for: {appointment.booked_for}</h3>
+			<h3>
+				Doctor:
+				{doctors.find((doctor) => doctor.id === appointment.doctor_id)?.name || 'Doctor not found'}
+			</h3>
 			<h4>Created at: {appointment.created_at}</h4>
 			<button class="deleteButton" on:click={() => deleteAppointment(appointment.id)}
 				>Delete this appointment</button
