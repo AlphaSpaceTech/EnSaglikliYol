@@ -45,6 +45,17 @@
 		}
 	}
 
+	async function deleteReview(reviewId) {
+		const { data, error } = await supabase.from('user_reviews').delete().eq('id', reviewId);
+
+		if (error) {
+			console.error('Error deleting review:', error);
+		} else {
+			// Refresh the page or update the state to remove the deleted review
+			goto('/refresh').then(() => goto(thisPage));
+		}
+	}
+
 	onMount(() => {
 		hospitalDoctors = doctors.filter((doc) => doc.hospital_id == hospitalID);
 		//if hospital doctors are =  [] then hospitaldoctors = undefined
@@ -126,9 +137,16 @@
 		{:else}
 			<div class="aReview">
 				{#each review as revi}
-					<h2>{revi.title}</h2>
-					<h4>From: {revi.user_id}</h4>
-					<p>{revi.data}</p>
+					<div class="reviewContent">
+						<div>
+							<h2>{revi.title}</h2>
+							<h4>From: {revi.user_id}</h4>
+							<p>{revi.data}</p>
+						</div>
+						{#if revi.user_id === userID.user?.id}
+							<button on:click={() => deleteReview(revi.id)} class="deleteButton">Delete</button>
+						{/if}
+					</div>
 				{/each}
 			</div>
 		{/if}
@@ -211,6 +229,11 @@
 		border: 1px solid #ccc;
 		border-radius: 4px;
 	}
+	.reviewContent {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
 	.reviewInput {
 		display: flex;
 		flex-direction: column;
@@ -222,6 +245,9 @@
 		padding: 0.5em;
 		border: 1px solid #ccc;
 		border-radius: 4px;
+	}
+	.deleteButton {
+		margin-right: 5em;
 	}
 
 	.bottomButtons {

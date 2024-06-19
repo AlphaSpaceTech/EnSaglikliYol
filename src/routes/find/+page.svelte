@@ -17,6 +17,7 @@
 	let reviewTitle: String;
 	let reviewComment: string;
 	let choiceStatus: string = 'Please select a city';
+	let thisPage: any;
 
 	// Function to handle city change
 	const changeCity = () => {
@@ -68,7 +69,7 @@
 					}
 				])
 				.select();
-			choiceStatus = 'Review sent, please refresh the page to see your review';
+			goto('/refresh').then(() => goto(thisPage));
 		} else {
 			console.log('Null data');
 		}
@@ -80,8 +81,19 @@
 	function sendToHospital() {
 		goto('/hospital/' + hospitalOrder);
 	}
+	async function deleteReview(reviewId) {
+		const { data, error } = await supabase.from('user_reviews').delete().eq('id', reviewId);
+
+		if (error) {
+			console.error('Error deleting review:', error);
+		} else {
+			// Refresh the page or update the state to remove the deleted review
+			goto('/refresh').then(() => goto(thisPage));
+		}
+	}
 
 	onMount(() => {
+		thisPage = window.location.pathname;
 		if (userID.user?.aud == null) {
 			goto('/auth');
 		}
@@ -151,9 +163,16 @@
 			<div class="reviews">
 				{#if review.length !== 0}
 					{#each review as revi}
-						<h2>{revi.title}</h2>
-						<h4>From: {revi.user_id}</h4>
-						<p>{revi.data}</p>
+						<div class="reviewContent">
+							<div>
+								<h2>{revi.title}</h2>
+								<h4>From: {revi.user_id}</h4>
+								<p>{revi.data}</p>
+							</div>
+							{#if revi.user_id === userID.user?.id}
+								<button on:click={() => deleteReview(revi.id)} class="deleteButton">Delete</button>
+							{/if}
+						</div>
 					{/each}
 				{/if}
 				<div class="reviewInput">
@@ -274,6 +293,15 @@
 		padding: 0.5em;
 		border: 1px solid #ccc;
 		border-radius: 4px;
+	}
+	.reviewContent {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.deleteButton {
+		margin-right: 5em;
 	}
 
 	.bottomButtons {

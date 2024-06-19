@@ -18,9 +18,8 @@
 		if (error) {
 			console.error(error);
 		}
-		invalidateAll();
 		isMenuOpen = false;
-		goto('/');
+		invalidateAll();
 	};
 </script>
 
