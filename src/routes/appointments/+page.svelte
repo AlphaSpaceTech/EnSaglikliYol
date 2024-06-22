@@ -3,11 +3,19 @@
 	import { invalidateAll } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
+	import { t, loadTranslations } from '$lib/translations';
 	export let data;
 	$: ({ hospitals, userID, supabase, appointments, doctors } = data);
 
 	let deleteSelected: any;
 	let thisPage: any;
+
+	let selectedLanguage = 'en'; // Default language
+
+	// Function to handle language change
+	const changeLanguage = () => {
+		loadTranslations(selectedLanguage);
+	};
 
 	async function deleteAppointment(id: any) {
 		const { error } = await supabase.from('appointments').delete().eq('id', id);
@@ -29,25 +37,26 @@
 </script>
 
 <main class="container">
-	<h2 class="title">Appointments for {userID.user?.email}</h2>
+	<h2 class="title">{$t('appointments.appointments_for')} {userID.user?.email}</h2>
 	{#if appointments.length === 0}
-		<h3>No appointments found</h3>
-		<button on:click={() => goto('/find')}>Find a hospital</button>
+		<h3>{$t('appointments.no_appointments_found')}</h3>
+		<button on:click={() => goto('/find')}>{$t('appointments.find_a_hospital')}</button>
 	{/if}
 	{#each appointments as appointment}
 		<div class="appointmentCard">
 			<h2>{hospitals[appointment.hospital_id - 1].name}</h2>
-			<h3>Booked for: {appointment.booked_for}</h3>
+			<h3>{$t('appointments.booked_for')} {appointment.booked_for}</h3>
 			<h3>
-				Doctor:
-				{doctors.find((doctor) => doctor.id === appointment.doctor_id)?.name || 'Doctor not found'}
+				{$t('appointments.doctor')}
+				{doctors.find((doctor) => doctor.id === appointment.doctor_id)?.name ||
+					$t('appointments.doctor_not_found')}
 			</h3>
-			<h4>Created at: {appointment.created_at}</h4>
+			<h4>{$t('appointments.created_at')} {appointment.created_at}</h4>
 			<button class="deleteButton" on:click={() => deleteAppointment(appointment.id)}
-				>Delete this appointment</button
+				>{$t('appointments.delete_appointment')}</button
 			>
 			<button class="detailsButton" on:click={() => gotoHospital(appointment.hospital_id)}
-				>Details for this hospital</button
+				>{$t('appointments.hospital_details')}</button
 			>
 		</div>
 	{/each}

@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
+	import { t, loadTranslations } from '$lib/translations';
 	export let data;
 	$: ({ cities, provinces, hospitals, reviews, attractions, supabase, userID, doctors } = data);
 
@@ -21,6 +22,13 @@
 	let reviewComment: string;
 	let thisPage: any;
 	let hospitalDoctors: any;
+
+	let selectedLanguage = 'en'; // Default language
+
+	// Function to handle language change
+	const changeLanguage = () => {
+		loadTranslations(selectedLanguage);
+	};
 
 	function sendToBooking() {
 		goto('/book/' + hospitalID);
@@ -99,9 +107,9 @@
 <div class="topPart">
 	<div class="details">
 		<h1>{hospitalName}</h1>
-		<h2>At {hospitalProvinceText}/{hospitalCityText}</h2>
-		<h2>Cords: {hospitalCordsLatitude} - {hospitalCordsLongitude}</h2>
-		<h2>Contact number: {hospitalContactNumber}</h2>
+		<h2>{$t('hospital.at')} {hospitalProvinceText}/{hospitalCityText}</h2>
+		<h2>{$t('hospital.cords')} {hospitalCordsLatitude} - {hospitalCordsLongitude}</h2>
+		<h2>{$t('hospital.contact')} {hospitalContactNumber}</h2>
 	</div>
 	{#if hospitalCordsLatitude && hospitalCordsLongitude}
 		<div class="mapContainer">
@@ -121,7 +129,7 @@
 <!-- svelte-ignore empty-block -->
 {#if hospitalDoctors == undefined}{:else}
 	<div class="doctors">
-		<h3>Doctors available at {hospitalName}</h3>
+		<h3>{$t('hospital.doctors_available')} {hospitalName}</h3>
 		{#each hospitalDoctors as doc}
 			<div class="doctor">
 				<h2>{doc.name}</h2>
@@ -140,11 +148,13 @@
 					<div class="reviewContent">
 						<div>
 							<h2>{revi.title}</h2>
-							<h4>From: {revi.user_id}</h4>
+							<h4>{$t('review.from')} {revi.user_id}</h4>
 							<p>{revi.data}</p>
 						</div>
 						{#if revi.user_id === userID.user?.id}
-							<button on:click={() => deleteReview(revi.id)} class="deleteButton">Delete</button>
+							<button on:click={() => deleteReview(revi.id)} class="deleteButton"
+								>{$t('review.delete')}</button
+							>
 						{/if}
 					</div>
 				{/each}
@@ -152,11 +162,11 @@
 		{/if}
 	</div>
 	<div class="reviewInput">
-		<input bind:value={reviewTitle} placeholder="Review Title" />
-		<input bind:value={reviewComment} placeholder="Review" />
+		<input bind:value={reviewTitle} placeholder={$t('review.title')} />
+		<input bind:value={reviewComment} placeholder={$t('review.data')} />
 		<div class="bottomButtons">
-			<button on:click={sendReview}>Send Review</button>
-			<button on:click={sendToBooking}>Book an appointment with this hospital</button>
+			<button on:click={sendReview}>{$t('review.send')}</button>
+			<button on:click={sendToBooking}>{$t('find.book')}</button>
 		</div>
 	</div>
 </div>
@@ -164,10 +174,10 @@
 <div class="placesContainer">
 	{#if load}
 		{#if relatedAttractionsProvince == undefined}
-			<h4>No attractions in {hospitalProvinceText}</h4>
+			<h4>{$t('hospital.no_attraction')} {hospitalProvinceText}</h4>
 		{:else}
 			<div class="containerProvinces">
-				<h4>Places you can visit in {hospitalProvinceText}/{hospitalCityText}</h4>
+				<h4>{$t('hospital.places_visit')} {hospitalProvinceText}/{hospitalCityText}</h4>
 				<div class="provincePlaces">
 					{#each relatedAttractionsProvince as attractProv}
 						{attractProv.name}
@@ -177,7 +187,7 @@
 			</div>
 		{/if}
 		<div class="containerCities">
-			<h4>Places you can visit in {hospitalCityText}</h4>
+			<h4>{$t('hospital.places_visit')} {hospitalCityText}</h4>
 			<div class="cityPlaces">
 				{#each relatedAttractionsCity as attractCity}
 					{attractCity.name}

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
+	import { t, loadTranslations } from '$lib/translations';
 	export let data;
 	$: ({ cities, provinces, hospitals, userID, reviews, supabase } = data);
 	let selectedCity: String; // Variable to store the selected city
@@ -16,8 +17,15 @@
 	let review: any;
 	let reviewTitle: String;
 	let reviewComment: string;
-	let choiceStatus: string = 'Please select a city';
+	let choiceStatus: string = $t('find.choice_1');
 	let thisPage: any;
+
+	let selectedLanguage = 'en'; // Default language
+
+	// Function to handle language change
+	const changeLanguage = () => {
+		loadTranslations(selectedLanguage);
+	};
 
 	// Function to handle city change
 	const changeCity = () => {
@@ -28,7 +36,7 @@
 		province = provinces.filter((province: any) => province.city_id === cityOrder);
 		console.log('Province:', province);
 		selectedProvince = null;
-		choiceStatus = 'Please select a province';
+		choiceStatus = $t('find.choice_2');
 	};
 	// Function to handle province change
 	const changeProvince = () => {
@@ -40,7 +48,7 @@
 		hospital = hospitals.filter((hospital: any) => hospital.province_id === provinceOrder);
 		console.log('Hospital:', hospital);
 		selectedHospital = null;
-		choiceStatus = 'Please select a hospital';
+		choiceStatus = $t('find.choice_3');
 	};
 	const changeHospital = () => {
 		console.log('Selected hospital:', selectedHospital);
@@ -108,14 +116,14 @@
 <div class="all">
 	<div class="dropdowns">
 		<select bind:value={selectedCity} on:change={changeCity}>
-			<option disabled selected>Select a city</option>
+			<option disabled selected>{$t('find.select_city')}</option>
 			{#each cities as city}
 				<option value={city.name}>{city.name}</option>
 			{/each}
 		</select>
 		{#if province}
 			<select bind:value={selectedProvince} on:change={changeProvince}>
-				<option disabled selected>Select a province</option>
+				<option disabled selected>{$t('find.select_province')}</option>
 				{#each province as prov}
 					<option value={prov.name}>{prov.name}</option>
 				{/each}
@@ -123,7 +131,7 @@
 		{/if}
 		{#if hospital}
 			<select bind:value={selectedHospital} on:change={changeHospital} class="hospital">
-				<option disabled selected>Select a hospital</option>
+				<option disabled selected>{$t('find.select_hospital')}</option>
 				{#each hospital as hosp}
 					<option value={hosp.name}>{hosp.name}</option>
 				{/each}
@@ -166,23 +174,25 @@
 						<div class="reviewContent">
 							<div>
 								<h2>{revi.title}</h2>
-								<h4>From: {revi.user_id}</h4>
+								<h4>{$t('review.from')} {revi.user_id}</h4>
 								<p>{revi.data}</p>
 							</div>
 							{#if revi.user_id === userID.user?.id}
-								<button on:click={() => deleteReview(revi.id)} class="deleteButton">Delete</button>
+								<button on:click={() => deleteReview(revi.id)} class="deleteButton"
+									>{$t('review.delete')}</button
+								>
 							{/if}
 						</div>
 					{/each}
 				{/if}
 				<div class="reviewInput">
-					<input bind:value={reviewTitle} placeholder="Review Title" />
-					<input bind:value={reviewComment} placeholder="Review" />
+					<input bind:value={reviewTitle} placeholder={$t('review.title')} />
+					<input bind:value={reviewComment} placeholder={$t('review.data')} />
 				</div>
 				<div class="bottomButtons">
-					<button on:click={sendReview}>Send Review</button>
-					<button on:click={sendToHospital}>More details about this hospital</button>
-					<button on:click={sendToBooking}>Book an appointment with this hospital</button>
+					<button on:click={sendReview}>{$t('review.send')}</button>
+					<button on:click={sendToHospital}>{$t('find.details')}</button>
+					<button on:click={sendToBooking}>{$t('find.book')}</button>
 				</div>
 			</div>
 		</div>

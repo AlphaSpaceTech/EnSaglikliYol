@@ -1,15 +1,25 @@
+<script>
+	import { t, loadTranslations } from '$lib/translations';
+	let selectedLanguage = 'en'; // Default language
+
+	// Function to handle language change
+	const changeLanguage = () => {
+		loadTranslations(selectedLanguage);
+	};
+</script>
+
 <form method="POST" action="?/login" class="container">
 	<label class="dropdowns">
-		Email
+		{$t('auth.email')}
 		<input name="email" type="email" />
 	</label>
 	<label class="dropdowns">
-		Password
+		{$t('auth.password')}
 		<input name="password" type="password" />
 	</label>
 	<div class="bottomButtons">
-		<button>Login</button>
-		<button formaction="?/signup">Sign Up</button>
+		<button>{$t('auth.login')}</button>
+		<button formaction="?/signup">{$t('auth.sign_up')}</button>
 	</div>
 </form>
 

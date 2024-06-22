@@ -4,14 +4,13 @@
 
 	import { t, loadTranslations } from '$lib/translations';
 
-	console.log(doctors);
-
 	let selectedLanguage = 'en'; // Default language
 
 	// Function to handle language change
 	const changeLanguage = () => {
 		loadTranslations(selectedLanguage);
 	};
+	console.log(doctors);
 </script>
 
 <h1>Welcome to Supabase! [Test]</h1>
