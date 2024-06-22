@@ -3,8 +3,16 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { DateInput } from 'date-picker-svelte';
+	import { t, loadTranslations } from '$lib/translations';
 	export let data;
 	$: ({ hospitals, userID, supabase, doctors } = data);
+
+	let selectedLanguage = 'en'; // Default language
+
+	// Function to handle language change
+	const changeLanguage = () => {
+		loadTranslations(selectedLanguage);
+	};
 
 	const hospitalID = $page.params.slug;
 	let date = new Date();
@@ -39,31 +47,31 @@
 <main>
 	<section class="appointmentContainer">
 		<section class="hero">
-			<h1>Booking an appointment with {hospitals[Number(hospitalID) - 1].name}</h1>
+			<h1>{$t('book.book_with')} {hospitals[Number(hospitalID) - 1].name}</h1>
 		</section>
 		<div class="inputs">
 			<div class="dateInput">
-				<label for="date">Select a date for your appointment</label>
+				<label for="date">{$t('book.select_date')}</label>
 				<DateInput
 					bind:value={date}
 					min={new Date()}
 					max={new Date(new Date().setFullYear(new Date().getFullYear() + 2))}
 				/>
 				<div class="doctorInput">
-					<label for="doctor">Select a doctor for your appointment</label>
+					<label for="doctor">{$t('book.select_doctor')}</label>
 					<select name="doctor" id="doctor" bind:value={doctorID}>
 						{#if hospitalDoctors !== undefined}
 							{#each hospitalDoctors as doctor}
 								<option value={doctor.id}>{doctor.name}</option>
 							{/each}
 						{:else}
-							<option value="0">No doctors available</option>
+							<option value="0">{$t('book.no_doctors')}</option>
 						{/if}
 					</select>
 				</div>
 			</div>
 		</div>
-		<button on:click={bookAppointment}>Book Appointment</button>
+		<button on:click={bookAppointment}>{$t('book.book')}</button>
 	</section>
 </main>
 

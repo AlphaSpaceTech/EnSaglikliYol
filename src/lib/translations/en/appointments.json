@@ -1,0 +1,11 @@
+{
+	"appointments_for": "Appointments for",
+	"no_appointments_found": "No appointments found",
+	"find_a_hospital": "Find a hospital",
+	"booked_for": "Booked for:",
+	"doctor": "Doctor:",
+	"created_at": "Created at:",
+	"doctor_not_found": "Doctor not found",
+	"delete_appointment": "Delete this appointment",
+	"hospital_details": "Details for this hospital"
+}

@@ -1,5 +1,16 @@
+<script>
+	import { t, loadTranslations } from '$lib/translations';
+
+	let selectedLanguage = 'en'; // Default language
+
+	// Function to handle language change
+	const changeLanguage = () => {
+		loadTranslations(selectedLanguage);
+	};
+</script>
+
 <main>
-	<h1>Refreshing data please wait...</h1>
+	<h1>{$t('refresh.data')}</h1>
 </main>
 
 <style>

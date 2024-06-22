@@ -4,11 +4,18 @@
 	const logIn = () => {
 		goto('/auth');
 	};
+	import { t, loadTranslations } from '$lib/translations';
+
+	let selectedLanguage = 'en'; // Default language
+
+	// Function to handle language change
+	const changeLanguage = () => {
+		loadTranslations(selectedLanguage);
+	};
 </script>
 
-<h1>You need to verify your e-mail to log-in</h1>
+<h1>{$t('auth.verify')}</h1>
 <p>
-	We have sent you an e-mail to verify your account. Please check your inbox and click the link to
-	verify your account.
+	{$t('auth.verification_message')}
 </p>
-<button on:click={logIn}>Log-in</button>
+<button on:click={logIn}>{$t('auth.login')}</button>

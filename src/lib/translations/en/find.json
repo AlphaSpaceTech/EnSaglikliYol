@@ -1,0 +1,10 @@
+{
+	"select_city": "Select a city",
+	"select_province": "Select a province",
+	"select_hospital": "Select a hospital",
+	"choice_1": "Please select a city",
+	"choice_2": "Please select a province",
+	"choice_3": "Please select a hospital",
+	"details": "More details about this hospital",
+	"book": "Book an appointment with this hospital"
+}
