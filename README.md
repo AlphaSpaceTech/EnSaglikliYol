@@ -5,8 +5,6 @@
 
 ## About the project / Proje Hakkında
 
-### TR
-
 Projemizde geliştireceğimiz web sayfası ile ülkemizin sağlık turizminden hak ettiği
 payı alabilmesini sağlayacak bir paket pazarlama ve rehber sistemi platformu
 kurmayı amaçlıyoruz. Dünya’da sağlık turizminin genel turizm faaliyetleri içindeki yeri
@@ -16,8 +14,6 @@ girdisine bağımlı olan ülkeler için kritik önem sahiptir. Sağlık turizmi
 alacağı payın artmasına yönelik yatırımlar etki değeri açısından daha büyük geri
 dönüş sağlamaktadır. Geliştireceğimiz ara yüz ile sağlık hizmeti almak isteyen ama
 ülkemizi tanımayan hastalara rehberlik yapan bir platform geliştirilmiş olmaktadır.
-
-### EN
 
 ## Team Members / Takım Üyeleri
 
