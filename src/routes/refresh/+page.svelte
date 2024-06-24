@@ -1,3 +1,7 @@
+<svelte:head>
+	<title>En Sağlıklı Yol - Refreshing</title>
+</svelte:head>
+
 <script>
 	import { t, loadTranslations } from '$lib/translations';
 

@@ -1,3 +1,7 @@
+<svelte:head>
+	<title>En Sağlıklı Yol - Find a hospital</title>
+</svelte:head>
+
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
@@ -212,7 +216,7 @@
 		padding: 1em;
 		font-size: 16px;
 		border-radius: 4px;
-		background-color: #f9f9f9;
+		background-color: #3b3b3b3f;
 		box-sizing: border-box;
 	}
 	@media (max-width: 600px) {
@@ -226,7 +230,7 @@
 		flex-direction: column;
 		justify-content: space-between;
 		padding: 1em;
-		background-color: #f9f9f9;
+		background-color: #3b3b3b3f;
 		border-radius: 5px;
 		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 	}
@@ -237,7 +241,7 @@
 		font-size: 1em;
 		border: 1px solid #ccc;
 		border-radius: 4px;
-		background-color: #f9f9f9;
+		background-color: #3b3b3b3f;
 		box-sizing: border-box;
 		transition: all 0.3s ease;
 	}
@@ -261,7 +265,7 @@
 		padding: 0.5em;
 		font-size: 1em;
 		border-radius: 4px;
-		background-color: #f9f9f9;
+		background-color: #ffffffbb;
 		box-sizing: border-box;
 		transition: all 0.3s ease;
 	}

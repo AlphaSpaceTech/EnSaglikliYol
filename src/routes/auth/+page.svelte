@@ -1,3 +1,7 @@
+<svelte:head>
+	<title>En Sağlıklı Yol - Auth</title>
+</svelte:head>
+
 <script>
 	import { t, loadTranslations } from '$lib/translations';
 	let selectedLanguage = 'tr'; // Default language
@@ -29,7 +33,7 @@
 		flex-direction: column;
 		justify-content: space-between;
 		padding: 1em;
-		background-color: #f9f9f9;
+		background-color: #3b3b3b50;
 		border-radius: 5px;
 		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 		width: 100%;
@@ -43,7 +47,7 @@
 		padding: 1em;
 		font-size: 16px;
 		border-radius: 4px;
-		background-color: #f9f9f9;
+		background-color: #3b3b3b00;
 		box-sizing: border-box;
 	}
 

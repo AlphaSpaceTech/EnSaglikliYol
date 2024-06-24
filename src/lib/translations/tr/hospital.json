@@ -1,8 +1,8 @@
 {
 	"at": "Konum:",
-	"coordinate": "Kordinatlar:",
+	"cords": "Kordinatlar:",
 	"contact": "İletişim telefon numarası:",
-	"doctors_available": "Bu hastanedeki doktorlar:",
+	"doctors_available": "Bu hastanedeki doktorlar",
 	"no_attraction": "Burada görülecek yer bulunamamıştır",
 	"places_visit": "Burada görülecek yerler:"
 }

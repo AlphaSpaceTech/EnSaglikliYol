@@ -1,8 +1,8 @@
 {
 	"at": "At",
-	"coordinate": "Coordinates",
+	"cords": "Coordinates",
 	"contact": "Contact Number:",
-	"doctors_available": "Doctors available at",
+	"doctors_available": "Doctors available",
 	"no_attraction": "No attractions in",
 	"places_visit": "Places you can visit in"
 }

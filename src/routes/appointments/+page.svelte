@@ -37,6 +37,10 @@
 	});
 </script>
 
+<svelte:head>
+	<title>En Sağlıklı Yol - Appointments</title>
+</svelte:head>
+
 <main class="container">
 	<h2 class="title">{$t('appointments.appointments_for')} {userID.user?.email}</h2>
 	{#if appointments.length === 0}
@@ -69,7 +73,7 @@
 		flex-direction: column;
 		justify-content: space-between;
 		padding: 1em;
-		background-color: #f9f9f9;
+		background-color: #3b3b3b3f;
 		border-radius: 5px;
 		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 	}
@@ -83,7 +87,7 @@
 		flex-direction: column;
 		gap: 0.5em;
 		padding: 1em;
-		background-color: #fff;
+		background-color: #3b3b3b3f;
 		border-radius: 4px;
 		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 		margin-bottom: 1em;
