@@ -4,6 +4,7 @@
 	import NavigationBar from '$lib/navigationBar.svelte';
 	import { loadTranslations } from '$lib/translations';
 	import { inject } from '@vercel/analytics';
+	import { injectSpeedInsights } from '@vercel/speed-insights/sveltekit';
 	import { dev } from '$app/environment';
 
 	let selectedLanguage = 'tr'; // Default language
@@ -38,6 +39,7 @@
 		return () => data.subscription.unsubscribe();
 	});
 	inject({ mode: dev ? 'development' : 'production' });
+	injectSpeedInsights();
 	loadTranslations(selectedLanguage);
 </script>
 
