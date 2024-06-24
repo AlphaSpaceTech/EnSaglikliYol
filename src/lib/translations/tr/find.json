@@ -1,0 +1,10 @@
+{
+	"select_city": "Bir şehir seçin",
+	"select_province": "Bir ilçe seçin",
+	"select_hospital": "Bir hastane seçin",
+	"choice_1": "Lütfen bir şehir seçin",
+	"choice_2": "Lütfen bir ilçe seçin",
+	"choice_3": "Lütfen bir hastane seçin",
+	"details": "Bu hastane hakkında detaylar",
+	"book": "Bu hastane ile bir randevu alın"
+}

@@ -7,7 +7,8 @@
 	export let data;
 	$: ({ hospitals, userID, supabase, doctors } = data);
 
-	let selectedLanguage = 'en'; // Default language
+	let selectedLanguage = 'tr'; // Default language
+	loadTranslations(selectedLanguage);
 
 	// Function to handle language change
 	const changeLanguage = () => {

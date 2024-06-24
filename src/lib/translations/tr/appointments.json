@@ -1,0 +1,11 @@
+{
+	"appointments_for": "Randevularınız",
+	"no_appointments_found": "Randevu bulunamamıştır",
+	"find_a_hospital": "Bir hastane bul",
+	"booked_for": "Randevu tarihi:",
+	"doctor": "Doktor:",
+	"created_at": "Ne zaman alındı:",
+	"doctor_not_found": "Doktor bulunamadı",
+	"delete_appointment": "Bu randevuyu sil",
+	"hospital_details": "Bu hastanenin detayları"
+}

@@ -1,0 +1,8 @@
+{
+	"book_with": "Bu hastane ile randevu al: ",
+	"select_date": "Randevunuz için bir tarih seçin",
+	"select_doctor": "Randevunuz için bir doktor seçin",
+	"no_doctors": "Doktor bulunamamıştır",
+	"book": "Randevu Al"
+
+}

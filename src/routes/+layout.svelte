@@ -6,6 +6,18 @@
 	import { inject } from '@vercel/analytics';
 	import { dev } from '$app/environment';
 
+	let selectedLanguage = 'tr'; // Default language
+
+	// Function to handle language change
+	const changeLanguage = () => {
+		if (selectedLanguage === 'en') {
+			selectedLanguage = 'tr';
+		} else {
+			selectedLanguage = 'en';
+		}
+		loadTranslations(selectedLanguage);
+	};
+
 	export let data;
 	$: ({ session, supabase, user } = data);
 
@@ -26,7 +38,22 @@
 		return () => data.subscription.unsubscribe();
 	});
 	inject({ mode: dev ? 'development' : 'production' });
+	loadTranslations(selectedLanguage);
 </script>
 
 <NavigationBar {user} {supabase} />
 <slot />
+
+{#if selectedLanguage == 'tr'}
+	<button on:click={changeLanguage} class="changeLanguage">Change Language</button>
+{:else}
+	<button on:click={changeLanguage} class="changeLanguage">Dil Değiştir</button>
+{/if}
+
+<style>
+	.changeLanguage {
+		position: fixed;
+		bottom: 0;
+		right: 0;
+	}
+</style>

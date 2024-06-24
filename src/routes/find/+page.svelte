@@ -20,7 +20,8 @@
 	let choiceStatus: string = $t('find.choice_1');
 	let thisPage: any;
 
-	let selectedLanguage = 'en'; // Default language
+	let selectedLanguage = 'tr'; // Default language
+	loadTranslations(selectedLanguage);
 
 	// Function to handle language change
 	const changeLanguage = () => {

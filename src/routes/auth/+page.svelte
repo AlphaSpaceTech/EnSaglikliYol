@@ -1,6 +1,6 @@
 <script>
 	import { t, loadTranslations } from '$lib/translations';
-	let selectedLanguage = 'en'; // Default language
+	let selectedLanguage = 'tr'; // Default language
 
 	// Function to handle language change
 	const changeLanguage = () => {
