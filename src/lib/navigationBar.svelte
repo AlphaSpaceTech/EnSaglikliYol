@@ -3,6 +3,15 @@
 	export let user: { email?: string };
 	export let supabase: any; // Export supabase prop
 
+	import { t, loadTranslations } from '$lib/translations';
+
+	let selectedLanguage = 'tr'; // Default language
+
+	// Function to handle language change
+	const changeLanguage = () => {
+		loadTranslations(selectedLanguage);
+	};
+
 	let isMenuOpen = false;
 	function handleUserClick() {
 		console.log(user);
@@ -25,16 +34,16 @@
 
 <nav>
 	<div class="logo">
-		<a href="/"><img src="/favicon.png" alt="7-Times Logo" /></a>
+		<a href="/"><img src="/favicon.png" alt="En Sağlıklı Yol" /></a>
 	</div>
-	<h1>En Saglikli Yol</h1>
+	<h1>En Sağlıklı Yol</h1>
 	<ul>
-		<li><a href="/find">Find a hospital</a></li>
+		<li><a href="/find">{$t('appointments.find_a_hospital')}</a></li>
 		{#if user === null}
-			<li><a href="/auth">Log in</a></li>
+			<li><a href="/auth">{$t('auth.login')}</a></li>
 		{:else}
-			<li><a href="/appointments">Your Appointments</a></li>
-			<button on:click={handleUserClick}>Your profile</button>
+			<li><a href="/appointments">{$t('navbar.appointments')}</a></li>
+			<button on:click={handleUserClick}>{$t('navbar.profile')}</button>
 		{/if}
 	</ul>
 </nav>
@@ -46,7 +55,7 @@
 	{#if isMenuOpen}
 		<div class="menu">
 			<h3 style="padding: 10px;">{user?.email}</h3>
-			<button on:click={logout}>Logout</button>
+			<button on:click={logout}>{$t('auth.logout')}</button>
 		</div>
 	{/if}
 </div>

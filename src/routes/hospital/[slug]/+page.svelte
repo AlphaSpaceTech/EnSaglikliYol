@@ -1,3 +1,7 @@
+<svelte:head>
+	<title>En Sağlıklı Yol - Hospital</title>
+</svelte:head>
+
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
@@ -22,6 +26,16 @@
 	let reviewComment: string;
 	let thisPage: any;
 	let hospitalDoctors: any;
+
+	let branchMap = [
+		['Kadın Hastalıkları ve Doğum Anabilim Dalı'],
+		['Genel Cerrahi Anabilim Dalı'],
+		['Fizik Tedavi ve Rehabilitasyon Anabilim Dalı'],
+		['Göz Hastalıkları Anabilim Dalı'],
+		['Kulak Burun Boğaz Hastalıkları Anabilim Dalı'],
+		['Ortopedi ve Travmatoloji Anabilim Dalı'],
+		['Ağız Diş ve Çene Cerrahisi']
+	];
 
 	let selectedLanguage = 'tr'; // Default language
 	loadTranslations(selectedLanguage);
@@ -129,12 +143,12 @@
 </div>
 <!-- svelte-ignore empty-block -->
 {#if hospitalDoctors == undefined}{:else}
+	<h2 style="margin: 1m; padding: 1em;">{$t('hospital.doctors_available')}</h2>
 	<div class="doctors">
-		<h3>{$t('hospital.doctors_available')} {hospitalName}</h3>
 		{#each hospitalDoctors as doc}
 			<div class="doctor">
 				<h2>{doc.name}</h2>
-				<h4>{doc.branch}</h4>
+				<h4>{branchMap[doc.branch]}</h4>
 			</div>
 		{/each}
 	</div>
@@ -204,7 +218,7 @@
 		display: flex;
 		align-items: stretch;
 		padding: 1em;
-		background-color: #f5f5f5;
+		background-color: #3b3b3b3f;
 		border-radius: 4px;
 		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	}
@@ -235,6 +249,7 @@
 
 	.doctors {
 		display: grid;
+		grid-template-columns: repeat(3, 1fr); /* This creates three columns */
 		gap: 1em;
 		padding: 1em;
 		border: 1px solid #ccc;

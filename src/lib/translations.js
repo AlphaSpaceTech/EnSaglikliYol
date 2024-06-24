@@ -42,8 +42,17 @@ const config = {
 			locale: 'en',
 			key: 'refresh',
 			loader: async () => (await import(`$lib/translations/en/refresh.json`)).default
-		}
-		,
+		},
+		{
+			locale: 'en',
+			key: 'main',
+			loader: async () => (await import(`$lib/translations/en/main.json`)).default
+		},
+		{
+			locale: 'en',
+			key: 'navbar',
+			loader: async () => (await import(`$lib/translations/en/navbar.json`)).default
+		},
 		{
 			locale: 'tr',
 			key: 'appointments',
@@ -78,6 +87,16 @@ const config = {
 			locale: 'tr',
 			key: 'refresh',
 			loader: async () => (await import(`$lib/translations/tr/refresh.json`)).default
+		},
+		{
+			locale: 'tr',
+			key: 'main',
+			loader: async () => (await import(`$lib/translations/tr/main.json`)).default
+		},
+		{
+			locale: 'tr',
+			key: 'navbar',
+			loader: async () => (await import(`$lib/translations/tr/navbar.json`)).default
 		}
 	]
 };

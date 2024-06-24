@@ -55,8 +55,8 @@
 		console.log('Selected hospital:', selectedHospital);
 		hospitalOrder = hospitals.findIndex((hosp: any) => hosp.name === selectedHospital) + 1;
 		console.log('Hospital order:', hospitalOrder);
-		hospitalCordsLatitude = hospitals[hospitalOrder].latitude;
-		hospitalCordsLongitude = hospitals[hospitalOrder].longitude;
+		hospitalCordsLatitude = hospitals[hospitalOrder - 1].latitude;
+		hospitalCordsLongitude = hospitals[hospitalOrder - 1].longitude;
 		console.log('Hospital cords:', hospitalCordsLatitude, hospitalCordsLongitude);
 		//Get all review that have the selected hospital
 		review = reviews.filter((review: any) => review.hospital_id == hospitalOrder);
@@ -113,6 +113,10 @@
 		console.log(reviews);
 	});
 </script>
+
+<svelte:head>
+	<title>En Sağlıklı Yol - Find a hospital</title>
+</svelte:head>
 
 <div class="all">
 	<div class="dropdowns">
@@ -212,7 +216,7 @@
 		padding: 1em;
 		font-size: 16px;
 		border-radius: 4px;
-		background-color: #f9f9f9;
+		background-color: #3b3b3b3f;
 		box-sizing: border-box;
 	}
 	@media (max-width: 600px) {
@@ -226,7 +230,7 @@
 		flex-direction: column;
 		justify-content: space-between;
 		padding: 1em;
-		background-color: #f9f9f9;
+		background-color: #3b3b3b3f;
 		border-radius: 5px;
 		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 	}
@@ -237,7 +241,7 @@
 		font-size: 1em;
 		border: 1px solid #ccc;
 		border-radius: 4px;
-		background-color: #f9f9f9;
+		background-color: #3b3b3b3f;
 		box-sizing: border-box;
 		transition: all 0.3s ease;
 	}
@@ -261,7 +265,7 @@
 		padding: 0.5em;
 		font-size: 1em;
 		border-radius: 4px;
-		background-color: #f9f9f9;
+		background-color: #ffffffbb;
 		box-sizing: border-box;
 		transition: all 0.3s ease;
 	}

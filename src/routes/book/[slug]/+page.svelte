@@ -1,3 +1,7 @@
+<svelte:head>
+	<title>En Sağlıklı Yol - Book an appointment</title>
+</svelte:head>
+
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
@@ -96,7 +100,7 @@
 		flex-direction: column;
 		align-items: stretch;
 		padding: 1em;
-		background-color: #f5f5f5;
+		background-color: #3b3b3b3f;
 		border-radius: 4px;
 		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	}
@@ -104,7 +108,7 @@
 	.appointmentContainer .dateInput {
 		margin-bottom: 1em;
 		padding: 0.5em;
-		border: 1px solid #ccc;
+		border: 1px solid #000000;
 		border-radius: 4px;
 	}
 

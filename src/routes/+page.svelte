@@ -1,11 +1,23 @@
+<svelte:head>
+	<title>En Sağlıklı Yol</title>
+</svelte:head>
+
 <script>
+	import { t, loadTranslations } from '$lib/translations';
+
+	let selectedLanguage = 'tr'; // Default language
+	loadTranslations(selectedLanguage);
+	// Function to handle language change
+	const changeLanguage = () => {
+		loadTranslations(selectedLanguage);
+	};
 </script>
 
 <main class="container">
-	<h1>Welcome to En Saglikli Yol</h1>
+	<h1>{$t('main.welcome')}</h1>
 	<div class="buttons">
-		<button><a href="/find">Find a hospital</a></button>
-		<button><a href="/appointments">See your appointments</a></button>
+		<button><a href="/find">{$t('appointments.find_a_hospital')}</a></button>
+		<button><a href="/appointments">{$t('main.appointments')}</a></button>
 	</div>
 </main>
 
@@ -16,12 +28,13 @@
 		justify-content: center;
 		align-items: center;
 		padding: 1em;
-		background-color: #f9f9f9;
+		background-color: #3b3b3b3f;
 		border-radius: 5px;
 		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 		height: 100%;
 		text-align: center;
 		margin: 10vh auto;
+		max-width: 600px;
 	}
 
 	.buttons {
