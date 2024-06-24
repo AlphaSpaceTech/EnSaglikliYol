@@ -1,7 +1,3 @@
-<svelte:head>
-	<title>En Sağlıklı Yol - Find a hospital</title>
-</svelte:head>
-
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
@@ -59,8 +55,8 @@
 		console.log('Selected hospital:', selectedHospital);
 		hospitalOrder = hospitals.findIndex((hosp: any) => hosp.name === selectedHospital) + 1;
 		console.log('Hospital order:', hospitalOrder);
-		hospitalCordsLatitude = hospitals[hospitalOrder].latitude;
-		hospitalCordsLongitude = hospitals[hospitalOrder].longitude;
+		hospitalCordsLatitude = hospitals[hospitalOrder - 1].latitude;
+		hospitalCordsLongitude = hospitals[hospitalOrder - 1].longitude;
 		console.log('Hospital cords:', hospitalCordsLatitude, hospitalCordsLongitude);
 		//Get all review that have the selected hospital
 		review = reviews.filter((review: any) => review.hospital_id == hospitalOrder);
@@ -117,6 +113,10 @@
 		console.log(reviews);
 	});
 </script>
+
+<svelte:head>
+	<title>En Sağlıklı Yol - Find a hospital</title>
+</svelte:head>
 
 <div class="all">
 	<div class="dropdowns">
